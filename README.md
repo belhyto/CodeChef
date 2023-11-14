@@ -6,7 +6,7 @@ Competitive programming questions from codechef mostly done in c++.
 git init  
 git add .  
 git commit -m "First Commit"  
-got remote add origin " url "  
+git remote add origin " url "  
 git push origin master  
 
 2.Pushing changes  
