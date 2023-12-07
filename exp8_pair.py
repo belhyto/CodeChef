@@ -15,9 +15,9 @@ def floydWarshall(graph):
     for k in range(V):
         for i in range(V):
             for j in range(V):
-                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+                graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
 
-    return dist
+    return graph
 
 V = int(input("Enter the number of vertices: "))
 
