@@ -9,6 +9,10 @@ git commit -m "First Commit"
 git remote add origin " url "  
 git push origin master  
 
+or 
+
+git push origin main  
+
 2.Pushing changes  
 git push --set-upstream origin master  
 git add .  
