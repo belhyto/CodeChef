@@ -1,7 +1,6 @@
 knowledge_base = {
     'reading difficulties': 'dyslexia',
     'difficulty with phonological awareness': 'dyslexia',
-     'difficulty with phonological awareness': 'dyslexia',
     'difficulty with letter recognition': 'dyslexia',
     'poor spelling skills': 'dyslexia',
     'difficulty with decoding words': 'dyslexia',
