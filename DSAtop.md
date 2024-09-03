@@ -664,4 +664,861 @@ Here are some DSA (Data Structures and Algorithms) questions on arrays that are 
 
 These questions cover a variety of concepts related to arrays, such as searching, sorting, manipulation, and optimization techniques. Practicing these problems will help you prepare for coding interviews at IBM and similar companies.
 
+Here are some essential DSA questions and answers focused on hashmaps, which are frequently asked in coding interviews, including at IBM. These questions will help you strengthen your understanding and application of hashmaps in solving various problems.
 
+### 1. **Two Sum Problem**
+   - **Problem**: Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.
+   - **Example**:
+     ```cpp
+     Input: nums = [2, 7, 11, 15], target = 9
+     Output: [0, 1]
+     ```
+   - **Solution**:
+     ```cpp
+     vector<int> twoSum(vector<int>& nums, int target) {
+         unordered_map<int, int> map;
+         for (int i = 0; i < nums.size(); i++) {
+             int complement = target - nums[i];
+             if (map.find(complement) != map.end()) {
+                 return {map[complement], i};
+             }
+             map[nums[i]] = i;
+         }
+         return {};
+     }
+     ```
+
+### 2. **Subarray Sum Equals K**
+   - **Problem**: Given an array of integers `nums` and an integer `k`, find the total number of continuous subarrays whose sum equals `k`.
+   - **Example**:
+     ```cpp
+     Input: nums = [1, 1, 1], k = 2
+     Output: 2
+     ```
+   - **Solution**:
+     ```cpp
+     int subarraySum(vector<int>& nums, int k) {
+         unordered_map<int, int> map;
+         map[0] = 1;
+         int count = 0, sum = 0;
+
+         for (int num : nums) {
+             sum += num;
+             if (map.find(sum - k) != map.end()) {
+                 count += map[sum - k];
+             }
+             map[sum]++;
+         }
+
+         return count;
+     }
+     ```
+
+### 3. **Longest Consecutive Sequence**
+   - **Problem**: Given an unsorted array of integers `nums`, return the length of the longest consecutive elements sequence.
+   - **Example**:
+     ```cpp
+     Input: nums = [100, 4, 200, 1, 3, 2]
+     Output: 4 (because the longest sequence is [1, 2, 3, 4])
+     ```
+   - **Solution**:
+     ```cpp
+     int longestConsecutive(vector<int>& nums) {
+         unordered_set<int> numSet(nums.begin(), nums.end());
+         int longestStreak = 0;
+
+         for (int num : nums) {
+             if (!numSet.count(num - 1)) {
+                 int currentNum = num;
+                 int currentStreak = 1;
+
+                 while (numSet.count(currentNum + 1)) {
+                     currentNum += 1;
+                     currentStreak += 1;
+                 }
+
+                 longestStreak = max(longestStreak, currentStreak);
+             }
+         }
+
+         return longestStreak;
+     }
+     ```
+
+### 4. **Group Anagrams**
+   - **Problem**: Given an array of strings, group anagrams together.
+   - **Example**:
+     ```cpp
+     Input: strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+     Output: [["eat","tea","ate"],["tan","nat"],["bat"]]
+     ```
+   - **Solution**:
+     ```cpp
+     vector<vector<string>> groupAnagrams(vector<string>& strs) {
+         unordered_map<string, vector<string>> map;
+         for (string s : strs) {
+             string key = s;
+             sort(key.begin(), key.end());
+             map[key].push_back(s);
+         }
+
+         vector<vector<string>> anagrams;
+         for (auto& pair : map) {
+             anagrams.push_back(pair.second);
+         }
+
+         return anagrams;
+     }
+     ```
+
+### 5. **Find All Duplicates in an Array**
+   - **Problem**: Given an integer array `nums` of length `n` where all the integers of nums are in the range `[1, n]` and some elements appear twice while others appear once, return an array of all the integers that appear twice.
+   - **Example**:
+     ```cpp
+     Input: nums = [4,3,2,7,8,2,3,1]
+     Output: [2,3]
+     ```
+   - **Solution**:
+     ```cpp
+     vector<int> findDuplicates(vector<int>& nums) {
+         unordered_map<int, int> map;
+         vector<int> result;
+
+         for (int num : nums) {
+             map[num]++;
+         }
+
+         for (auto& pair : map) {
+             if (pair.second == 2) {
+                 result.push_back(pair.first);
+             }
+         }
+
+         return result;
+     }
+     ```
+
+### 6. **Top K Frequent Elements**
+   - **Problem**: Given a non-empty array of integers, return the `k` most frequent elements.
+   - **Example**:
+     ```cpp
+     Input: nums = [1,1,1,2,2,3], k = 2
+     Output: [1, 2]
+     ```
+   - **Solution**:
+     ```cpp
+     vector<int> topKFrequent(vector<int>& nums, int k) {
+         unordered_map<int, int> map;
+         for (int num : nums) {
+             map[num]++;
+         }
+
+         priority_queue<pair<int, int>> pq;
+         for (auto& pair : map) {
+             pq.push({pair.second, pair.first});
+         }
+
+         vector<int> result;
+         for (int i = 0; i < k; i++) {
+             result.push_back(pq.top().second);
+             pq.pop();
+         }
+
+         return result;
+     }
+     ```
+
+### 7. **Intersection of Two Arrays**
+   - **Problem**: Given two arrays, return their intersection. Each element in the result must be unique.
+   - **Example**:
+     ```cpp
+     Input: nums1 = [1,2,2,1], nums2 = [2,2]
+     Output: [2]
+     ```
+   - **Solution**:
+     ```cpp
+     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+         unordered_set<int> set1(nums1.begin(), nums1.end());
+         unordered_set<int> resultSet;
+
+         for (int num : nums2) {
+             if (set1.count(num)) {
+                 resultSet.insert(num);
+             }
+         }
+
+         return vector<int>(resultSet.begin(), resultSet.end());
+     }
+     ```
+
+### 8. **Longest Substring Without Repeating Characters**
+   - **Problem**: Given a string, find the length of the longest substring without repeating characters.
+   - **Example**:
+     ```cpp
+     Input: s = "abcabcbb"
+     Output: 3 ("abc")
+     ```
+   - **Solution**:
+     ```cpp
+     int lengthOfLongestSubstring(string s) {
+         unordered_map<char, int> map;
+         int maxLength = 0, start = 0;
+
+         for (int end = 0; end < s.size(); end++) {
+             if (map.find(s[end]) != map.end()) {
+                 start = max(map[s[end]] + 1, start);
+             }
+             map[s[end]] = end;
+             maxLength = max(maxLength, end - start + 1);
+         }
+
+         return maxLength;
+     }
+     ```
+
+### 9. **Ransom Note**
+   - **Problem**: Given two strings `ransomNote` and `magazine`, return `true` if `ransomNote` can be constructed by using the letters from `magazine` and `false` otherwise.
+   - **Example**:
+     ```cpp
+     Input: ransomNote = "a", magazine = "b"
+     Output: false
+     ```
+   - **Solution**:
+     ```cpp
+     bool canConstruct(string ransomNote, string magazine) {
+         unordered_map<char, int> map;
+         for (char c : magazine) {
+             map[c]++;
+         }
+
+         for (char c : ransomNote) {
+             if (map[c] == 0) {
+                 return false;
+             }
+             map[c]--;
+         }
+
+         return true;
+     }
+     ```
+
+### 10. **Find the Difference**
+   - **Problem**: You are given two strings `s` and `t`, where `t` is generated by shuffling `s` and then adding one more letter at a random position. Return the letter that was added to `t`.
+   - **Example**:
+     ```cpp
+     Input: s = "abcd", t = "abcde"
+     Output: "e"
+     ```
+   - **Solution**:
+     ```cpp
+     char findTheDifference(string s, string t) {
+         unordered_map<char, int> map;
+
+         for (char c : s) {
+             map[c]++;
+         }
+
+         for (char c : t) {
+             if (map[c] == 0) {
+                 return c;
+             }
+             map[c]--;
+         }
+
+         return '\0';
+     }
+     ```
+
+### 11. **Isomorphic Strings**
+   - **Problem**: Given two strings `s` and `t`, determine if they are isomorphic. Two strings are isomorphic if the characters in `s` can be replaced to get `t`.
+   - **Example**:
+     ```cpp
+     Input: s = "egg", t = "add"
+
+
+     Output: true
+     ```
+   - **Solution**:
+     ```cpp
+     bool isIsomorphic(string s, string t) {
+         unordered_map<char, char> mapS, mapT;
+         for (int i = 0; i < s.size(); i++) {
+             if (mapS.find(s[i]) != mapS.end()) {
+                 if (mapS[s[i]] != t[i]) return false;
+             } else {
+                 mapS[s[i]] = t[i];
+             }
+
+             if (mapT.find(t[i]) != mapT.end()) {
+                 if (mapT[t[i]] != s[i]) return false;
+             } else {
+                 mapT[t[i]] = s[i];
+             }
+         }
+         return true;
+     }
+     ```
+
+### 12. **Word Pattern**
+   - **Problem**: Given a pattern and a string `s`, find if `s` follows the same pattern.
+   - **Example**:
+     ```cpp
+     Input: pattern = "abba", s = "dog cat cat dog"
+     Output: true
+     ```
+   - **Solution**:
+     ```cpp
+     bool wordPattern(string pattern, string s) {
+         unordered_map<char, string> mapP;
+         unordered_map<string, char> mapS;
+         vector<string> words;
+         istringstream iss(s);
+         string word;
+         while (iss >> word) {
+             words.push_back(word);
+         }
+
+         if (words.size() != pattern.size()) {
+             return false;
+         }
+
+         for (int i = 0; i < pattern.size(); i++) {
+             char p = pattern[i];
+             string w = words[i];
+
+             if (mapP.find(p) != mapP.end()) {
+                 if (mapP[p] != w) return false;
+             } else {
+                 mapP[p] = w;
+             }
+
+             if (mapS.find(w) != mapS.end()) {
+                 if (mapS[w] != p) return false;
+             } else {
+                 mapS[w] = p;
+             }
+         }
+
+         return true;
+     }
+     ```
+
+These questions cover a variety of scenarios where hashmaps are useful. Practicing them will help you build a strong foundation for solving hashmap-related problems in coding interviews, including those at IBM.
+
+Here are some common DSA questions related to strings that are frequently asked in coding interviews, including at IBM. These questions will help you strengthen your understanding of string manipulation and algorithms.
+
+### 1. **Reverse a String**
+   - **Problem**: Write a function that reverses a string.
+   - **Example**:
+     ```cpp
+     Input: "hello"
+     Output: "olleh"
+     ```
+   - **Solution**:
+     ```cpp
+     string reverseString(string s) {
+         int left = 0, right = s.length() - 1;
+         while (left < right) {
+             swap(s[left++], s[right--]);
+         }
+         return s;
+     }
+     ```
+
+### 2. **Check if Two Strings are Anagrams**
+   - **Problem**: Given two strings `s` and `t`, determine if they are anagrams of each other.
+   - **Example**:
+     ```cpp
+     Input: s = "anagram", t = "nagaram"
+     Output: true
+     ```
+   - **Solution**:
+     ```cpp
+     bool isAnagram(string s, string t) {
+         if (s.length() != t.length()) return false;
+         vector<int> count(26, 0);
+         for (char c : s) count[c - 'a']++;
+         for (char c : t) {
+             if (--count[c - 'a'] < 0) return false;
+         }
+         return true;
+     }
+     ```
+
+### 3. **Longest Palindromic Substring**
+   - **Problem**: Given a string `s`, find the longest palindromic substring in `s`.
+   - **Example**:
+     ```cpp
+     Input: "babad"
+     Output: "bab" (Note: "aba" is also a valid answer.)
+     ```
+   - **Solution**:
+     ```cpp
+     string longestPalindrome(string s) {
+         if (s.empty()) return "";
+         int n = s.length(), start = 0, maxLen = 1;
+
+         for (int i = 0; i < n; i++) {
+             int l = i, r = i;
+             while (l >= 0 && r < n && s[l] == s[r]) {
+                 if (r - l + 1 > maxLen) {
+                     start = l;
+                     maxLen = r - l + 1;
+                 }
+                 l--;
+                 r++;
+             }
+
+             l = i, r = i + 1;
+             while (l >= 0 && r < n && s[l] == s[r]) {
+                 if (r - l + 1 > maxLen) {
+                     start = l;
+                     maxLen = r - l + 1;
+                 }
+                 l--;
+                 r++;
+             }
+         }
+
+         return s.substr(start, maxLen);
+     }
+     ```
+
+### 4. **String to Integer (atoi)**
+   - **Problem**: Implement the `atoi` function, which converts a string to an integer.
+   - **Example**:
+     ```cpp
+     Input: "42"
+     Output: 42
+     ```
+   - **Solution**:
+     ```cpp
+     int myAtoi(string s) {
+         int i = 0, sign = 1, result = 0;
+         while (i < s.length() && s[i] == ' ') i++;
+
+         if (i < s.length() && (s[i] == '+' || s[i] == '-')) {
+             sign = (s[i++] == '-') ? -1 : 1;
+         }
+
+         while (i < s.length() && isdigit(s[i])) {
+             int digit = s[i++] - '0';
+             if (result > (INT_MAX - digit) / 10) {
+                 return (sign == 1) ? INT_MAX : INT_MIN;
+             }
+             result = result * 10 + digit;
+         }
+
+         return result * sign;
+     }
+     ```
+
+### 5. **Longest Substring Without Repeating Characters**
+   - **Problem**: Given a string `s`, find the length of the longest substring without repeating characters.
+   - **Example**:
+     ```cpp
+     Input: "abcabcbb"
+     Output: 3 (The answer is "abc", with the length of 3.)
+     ```
+   - **Solution**:
+     ```cpp
+     int lengthOfLongestSubstring(string s) {
+         unordered_map<char, int> map;
+         int maxLength = 0, start = 0;
+
+         for (int end = 0; end < s.size(); end++) {
+             if (map.find(s[end]) != map.end()) {
+                 start = max(map[s[end]] + 1, start);
+             }
+             map[s[end]] = end;
+             maxLength = max(maxLength, end - start + 1);
+         }
+
+         return maxLength;
+     }
+     ```
+
+### 6. **Count and Say**
+   - **Problem**: The "Count and Say" sequence is a sequence of digit strings defined by the recursive formula:
+     - `countAndSay(1) = "1"`
+     - `countAndSay(n)` is the previous term (n-1) read out loud.
+   - **Example**:
+     ```cpp
+     Input: 4
+     Output: "1211"
+     ```
+   - **Solution**:
+     ```cpp
+     string countAndSay(int n) {
+         if (n == 1) return "1";
+         string prev = countAndSay(n - 1);
+         string result = "";
+         int count = 1;
+
+         for (int i = 1; i < prev.length(); i++) {
+             if (prev[i] == prev[i - 1]) {
+                 count++;
+             } else {
+                 result += to_string(count) + prev[i - 1];
+                 count = 1;
+             }
+         }
+         result += to_string(count) + prev.back();
+         return result;
+     }
+     ```
+
+### 7. **Valid Anagram**
+   - **Problem**: Given two strings `s` and `t`, write a function to determine if `t` is an anagram of `s`.
+   - **Example**:
+     ```cpp
+     Input: s = "anagram", t = "nagaram"
+     Output: true
+     ```
+   - **Solution**:
+     ```cpp
+     bool isAnagram(string s, string t) {
+         if (s.length() != t.length()) return false;
+         vector<int> count(26, 0);
+         for (int i = 0; i < s.length(); i++) {
+             count[s[i] - 'a']++;
+             count[t[i] - 'a']--;
+         }
+         for (int c : count) {
+             if (c != 0) return false;
+         }
+         return true;
+     }
+     ```
+
+### 8. **Longest Common Prefix**
+   - **Problem**: Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string "".
+   - **Example**:
+     ```cpp
+     Input: ["flower", "flow", "flight"]
+     Output: "fl"
+     ```
+   - **Solution**:
+     ```cpp
+     string longestCommonPrefix(vector<string>& strs) {
+         if (strs.empty()) return "";
+         string prefix = strs[0];
+         for (int i = 1; i < strs.size(); i++) {
+             while (strs[i].find(prefix) != 0) {
+                 prefix = prefix.substr(0, prefix.length() - 1);
+                 if (prefix.empty()) return "";
+             }
+         }
+         return prefix;
+     }
+     ```
+
+### 9. **Zigzag Conversion**
+   - **Problem**: The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows. Write the code that will take a string and make this conversion.
+   - **Example**:
+     ```cpp
+     Input: s = "PAYPALISHIRING", numRows = 3
+     Output: "PAHNAPLSIIGYIR"
+     ```
+   - **Solution**:
+     ```cpp
+     string convert(string s, int numRows) {
+         if (numRows == 1) return s;
+
+         vector<string> rows(min(numRows, int(s.length())));
+         int currRow = 0;
+         bool goingDown = false;
+
+         for (char c : s) {
+             rows[currRow] += c;
+             if (currRow == 0 || currRow == numRows - 1) goingDown = !goingDown;
+             currRow += goingDown ? 1 : -1;
+         }
+
+         string result;
+         for (string row : rows) result += row;
+         return result;
+     }
+     ```
+
+### 10. **Add Binary**
+   - **Problem**: Given two binary strings, return their sum (also a binary string).
+   - **Example**:
+     ```cpp
+     Input: a = "11", b = "1"
+     Output: "100"
+     ```
+   - **Solution**:
+     ```cpp
+     string addBinary(string a, string b) {
+         string result = "";
+         int carry = 0, i = a.size() - 1, j = b.size() - 1;
+
+         while (i >= 0 || j >= 0 || carry) {
+             int sum = carry;
+             if (i >= 0) sum += a[i--] - '0';
+             if (j >= 0) sum += b[j--] - '0';
+             result
+
+ += (sum % 2) + '0';
+             carry = sum / 2;
+         }
+
+         reverse(result.begin(), result.end());
+         return result;
+     }
+     ```
+
+These problems cover a range of string-related algorithms and data structures. Practicing these problems will help you prepare for string-related questions in coding interviews at IBM.
+
+Here are some common Data Structures and Algorithms (DSA) questions related to queues that might be asked in IBM coding interviews. These problems cover various applications and implementations of queues.
+
+### 1. **Implement a Queue using Stacks**
+   - **Problem**: Implement a queue using two stacks. The queue should support the following operations:
+     - `enqueue(x)`: Add element `x` to the queue.
+     - `dequeue()`: Remove and return the element from the front of the queue.
+     - `peek()`: Return the element at the front of the queue without removing it.
+     - `empty()`: Return whether the queue is empty.
+   - **Solution**:
+     ```cpp
+     class MyQueue {
+     private:
+         stack<int> s1, s2;
+
+     public:
+         void enqueue(int x) {
+             s1.push(x);
+         }
+
+         int dequeue() {
+             if (s2.empty()) {
+                 while (!s1.empty()) {
+                     s2.push(s1.top());
+                     s1.pop();
+                 }
+             }
+             int res = s2.top();
+             s2.pop();
+             return res;
+         }
+
+         int peek() {
+             if (s2.empty()) {
+                 while (!s1.empty()) {
+                     s2.push(s1.top());
+                     s1.pop();
+                 }
+             }
+             return s2.top();
+         }
+
+         bool empty() {
+             return s1.empty() && s2.empty();
+         }
+     };
+     ```
+
+### 2. **Circular Queue**
+   - **Problem**: Design and implement a circular queue with a fixed size. The circular queue should support the following operations:
+     - `enqueue(x)`: Add an element `x` to the queue.
+     - `dequeue()`: Remove and return the front element of the queue.
+     - `isEmpty()`: Return whether the queue is empty.
+     - `isFull()`: Return whether the queue is full.
+   - **Solution**:
+     ```cpp
+     class CircularQueue {
+     private:
+         vector<int> arr;
+         int front, rear, size, capacity;
+
+     public:
+         CircularQueue(int k) : capacity(k), size(0), front(0), rear(0) {
+             arr.resize(k);
+         }
+
+         void enqueue(int x) {
+             if (isFull()) return;
+             arr[rear] = x;
+             rear = (rear + 1) % capacity;
+             size++;
+         }
+
+         int dequeue() {
+             if (isEmpty()) return -1;
+             int res = arr[front];
+             front = (front + 1) % capacity;
+             size--;
+             return res;
+         }
+
+         bool isEmpty() {
+             return size == 0;
+         }
+
+         bool isFull() {
+             return size == capacity;
+         }
+     };
+     ```
+
+### 3. **Generate Binary Numbers from 1 to N**
+   - **Problem**: Given an integer `N`, generate all binary numbers from `1` to `N` in a queue.
+   - **Example**:
+     ```cpp
+     Input: N = 5
+     Output: [1, 10, 11, 100, 101]
+     ```
+   - **Solution**:
+     ```cpp
+     vector<string> generateBinaryNumbers(int N) {
+         vector<string> result;
+         queue<string> q;
+         q.push("1");
+
+         for (int i = 0; i < N; i++) {
+             string binary = q.front();
+             q.pop();
+             result.push_back(binary);
+             q.push(binary + "0");
+             q.push(binary + "1");
+         }
+
+         return result;
+     }
+     ```
+
+### 4. **First Non-Repeating Character in a Stream**
+   - **Problem**: Given a stream of characters, find the first non-repeating character in the stream at each point.
+   - **Example**:
+     ```cpp
+     Input: "aabcc"
+     Output: "a", "a", "b", "b", "#"
+     ```
+   - **Solution**:
+     ```cpp
+     vector<char> firstNonRepeating(string str) {
+         vector<char> result;
+         unordered_map<char, int> count;
+         queue<char> q;
+
+         for (char c : str) {
+             count[c]++;
+             q.push(c);
+             
+             while (!q.empty() && count[q.front()] > 1) {
+                 q.pop();
+             }
+             
+             if (q.empty()) {
+                 result.push_back('#');
+             } else {
+                 result.push_back(q.front());
+             }
+         }
+
+         return result;
+     }
+     ```
+
+### 5. **Rearrange Characters in a String**
+   - **Problem**: Given a string where each character appears exactly twice, rearrange the characters in such a way that no two identical characters are adjacent.
+   - **Example**:
+     ```cpp
+     Input: "aabb"
+     Output: "abab" or "baba"
+     ```
+   - **Solution**:
+     ```cpp
+     string rearrangeCharacters(string s) {
+         unordered_map<char, int> count;
+         for (char c : s) {
+             count[c]++;
+         }
+
+         priority_queue<pair<int, char>> maxHeap;
+         for (auto& kv : count) {
+             maxHeap.push({kv.second, kv.first});
+         }
+
+         string result;
+         while (maxHeap.size() >= 2) {
+             auto [count1, char1] = maxHeap.top(); maxHeap.pop();
+             auto [count2, char2] = maxHeap.top(); maxHeap.pop();
+             
+             result += char1;
+             result += char2;
+             
+             if (--count1 > 0) maxHeap.push({count1, char1});
+             if (--count2 > 0) maxHeap.push({count2, char2});
+         }
+         
+         if (!maxHeap.empty()) {
+             result += maxHeap.top().second;
+         }
+
+         return result;
+     }
+     ```
+
+### 6. **Sliding Window Maximum**
+   - **Problem**: Given an array and a window size `k`, find the maximum value in each sliding window of size `k`.
+   - **Example**:
+     ```cpp
+     Input: [1,3,-1,-3,5,3,6,7], k = 3
+     Output: [3,3,5,5,6,7]
+     ```
+   - **Solution**:
+     ```cpp
+     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+         vector<int> result;
+         deque<int> dq;
+
+         for (int i = 0; i < nums.size(); i++) {
+             if (!dq.empty() && dq.front() == i - k) {
+                 dq.pop_front();
+             }
+             
+             while (!dq.empty() && nums[dq.back()] < nums[i]) {
+                 dq.pop_back();
+             }
+             
+             dq.push_back(i);
+
+             if (i >= k - 1) {
+                 result.push_back(nums[dq.front()]);
+             }
+         }
+
+         return result;
+     }
+     ```
+
+### 7. **Reverse First K Elements of Queue**
+   - **Problem**: Given a queue, reverse the first `k` elements of the queue.
+   - **Example**:
+     ```cpp
+     Input: Queue = [1,2,3,4,5], k = 3
+     Output: [3,2,1,4,5]
+     ```
+   - **Solution**:
+     ```cpp
+     void reverseFirstKElements(queue<int>& q, int k) {
+         stack<int> s;
+         for (int i = 0; i < k; i++) {
+             s.push(q.front());
+             q.pop();
+         }
+
+         while (!s.empty()) {
+             q.push(s.top());
+             s.pop();
+         }
+
+         for (int i = 0; i < q.size() - k; i++) {
+             q.push(q.front());
+             q.pop();
+         }
+     }
+     ```
+
+These questions and solutions should help you prepare for queue-related problems in coding interviews at IBM and other tech companies.
