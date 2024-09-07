@@ -770,7 +770,55 @@ Here are some essential DSA questions and answers focused on hashmaps, which are
          return anagrams;
      }
      ```
+     Full code
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+vector<vector<string>> groupAnagrams(vector<string>& strs) {
+    unordered_map<string, vector<string>> map;
+    
+    // Step 1: Group words by their sorted version
+    for (string s : strs) {
+        string key = s;
+        sort(key.begin(), key.end());  // Sort the string to create the key
+        map[key].push_back(s);         // Group anagrams together
+    }
+    
+    // Step 2: Prepare the result vector
+    vector<vector<string>> anagrams;
+    for (auto& pair : map) {
+        anagrams.push_back(pair.second);  // Collect all anagram groups
+    }
+    
+    return anagrams;  // Return the final grouped anagrams
+}
+
+int main() {
+    // Test input
+    vector<string> strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+    
+    // Group anagrams
+    vector<vector<string>> result = groupAnagrams(strs);
+    
+    // Print the result
+    for (const auto& group : result) {
+        cout << "[";
+        for (const auto& word : group) {
+            cout << word << " ";
+        }
+        cout << "]\n";
+    }
+    
+    return 0;
+}
+
+```
 ### 5. **Find All Duplicates in an Array**
    - **Problem**: Given an integer array `nums` of length `n` where all the integers of nums are in the range `[1, n]` and some elements appear twice while others appear once, return an array of all the integers that appear twice.
    - **Example**:
