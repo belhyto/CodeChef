@@ -1,7 +1,9 @@
 #include <iostream>
 #include <vector>
 
-void traverseSpiral(const std::vector<std::vector<int>>& matrix) {
+using namespace std;
+
+void traverseSpiral(const vector<vector<int>>& matrix) {
     int rows = matrix.size();
     int cols = matrix[0].size();
     int top = 0;
@@ -12,20 +14,20 @@ void traverseSpiral(const std::vector<std::vector<int>>& matrix) {
     while (top <= bottom && left <= right) {
         // Traverse from left to right
         for (int i = left; i <= right; ++i) {
-            std::cout << matrix[top][i] << " ";
+            cout << matrix[top][i] << " ";
         }
         top++;
 
         // Traverse from top to bottom
         for (int i = top; i <= bottom; ++i) {
-            std::cout << matrix[i][right] << " ";
+            cout << matrix[i][right] << " ";
         }
         right--;
 
         // Traverse from right to left
         if (top <= bottom) {
             for (int i = right; i >= left; --i) {
-                std::cout << matrix[bottom][i] << " ";
+                cout << matrix[bottom][i] << " ";
             }
             bottom--;
         }
@@ -33,16 +35,16 @@ void traverseSpiral(const std::vector<std::vector<int>>& matrix) {
         // Traverse from bottom to top
         if (left <= right) {
             for (int i = bottom; i >= top; --i) {
-                std::cout << matrix[i][left] << " ";
+                cout << matrix[i][left] << " ";
             }
             left++;
         }
     }
-    std::cout << std::endl;
+    cout << endl;
 }
 
 int main() {
-    std::vector<std::vector<int>> matrix = {
+    vector<vector<int>> matrix = {
         {1, 2, 3, 4},
         {5, 6, 7, 8},
         {9, 10, 11, 12},
