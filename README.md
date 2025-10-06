@@ -22,3 +22,14 @@ git push
 
 3.If changes made in repo before pushing  
 git push -f -u origin master  
+
+
+
+3. Pushing Changes to a cloned repo
+git branch
+git checkout branch-name
+git remote -v
+git add .
+git commit -m "Describe what you changed"
+(when others made changes) git pull origin main
+git push origin main
