@@ -33,3 +33,8 @@ git add .
 git commit -m "Describe what you changed"
 (when others made changes) git pull origin main
 git push origin main
+
+4. Pull from repo
+git branch
+git pull origin main
+
